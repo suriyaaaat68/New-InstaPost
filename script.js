@@ -16,8 +16,28 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // Instagram Portrait optimal resolution (4:5 ratio)
-    const CANVAS_WIDTH = 1080;
-    const CANVAS_HEIGHT = 1350;
+    const BASE_WIDTH = 1080;
+    const BASE_HEIGHT = 1350;
+    const SCALE_FACTOR = 2; // 2x resolution is mathematically perfect for Instagram's 1080x1350 downsampling
+
+    // Generate subtle noise pattern to trick Instagram compression and prevent color banding
+    const noiseCanvas = document.createElement('canvas');
+    noiseCanvas.width = 150;
+    noiseCanvas.height = 150;
+    const noiseCtx = noiseCanvas.getContext('2d');
+    const imgData = noiseCtx.createImageData(150, 150);
+    const data = imgData.data;
+    for (let i = 0; i < data.length; i += 4) {
+        const noise = Math.random() * 8; // Very subtle grain
+        data[i] = noise;
+        data[i+1] = noise;
+        data[i+2] = noise;
+        data[i+3] = 255;
+    }
+    noiseCtx.putImageData(imgData, 0, 0);
+
+    const CANVAS_WIDTH = BASE_WIDTH * SCALE_FACTOR;
+    const CANVAS_HEIGHT = BASE_HEIGHT * SCALE_FACTOR;
 
     canvas.width = CANVAS_WIDTH;
     canvas.height = CANVAS_HEIGHT;
@@ -40,8 +60,18 @@ document.addEventListener('DOMContentLoaded', () => {
         elements.paddingXVal.textContent = paddingX;
 
         // 3. Clear and Fill Canvas Background
-        ctx.fillStyle = '#000000'; // Pure black for Instagram code snippets
+        ctx.setTransform(1, 0, 0, 1, 0, 0); // Reset scale
+        ctx.fillStyle = '#0a0a0a'; // Off-black prevents severe compression ringing
         ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+
+        // Apply noise overlay
+        ctx.globalCompositeOperation = 'lighter';
+        ctx.fillStyle = ctx.createPattern(noiseCanvas, 'repeat');
+        ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+        ctx.globalCompositeOperation = 'source-over';
+
+        // Apply high quality scale
+        ctx.scale(SCALE_FACTOR, SCALE_FACTOR);
 
         // 4. Setup Text Styles
         // Using Fira Code (monospaced) for the aesthetic
@@ -58,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const totalTextHeight = lines.length * lineHeightPixels;
         
         // Center vertically, with a slight offset towards top to look natural
-        let startY = (CANVAS_HEIGHT - totalTextHeight) / 2;
+        let startY = (BASE_HEIGHT - totalTextHeight) / 2;
         
         // Prevent going off-screen at the top if text is too long
         if (startY < 50) startY = 50;
@@ -78,7 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
         ctx.fillStyle = textColor;
         ctx.font = '30px "Outfit", sans-serif';
         ctx.textAlign = 'center';
-        ctx.fillText('@devmoood', CANVAS_WIDTH / 2, CANVAS_HEIGHT - 60);
+        ctx.fillText('@devmoood', BASE_WIDTH / 2, BASE_HEIGHT - 60);
         
         // Reset properties for next draw
         ctx.globalAlpha = 1.0;
@@ -119,7 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
         elements.fontSize.value = 55;
         elements.lineHeight.value = 1.5;
         elements.paddingX.value = 100;
-        elements.textColor.value = '#ffffff';
+        elements.textColor.value = '#f0f0f0';
         drawMeme();
     });
 
