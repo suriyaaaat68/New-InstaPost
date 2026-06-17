@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InstaCode Meme Generator</title>
+    <meta name="description" content="Generate beautiful code snippet memes for Instagram in perfect 4:5 aspect ratio.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Outfit:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <div class="logo">
+                <span class="logo-icon">&lt;/&gt;</span>
+                <h1>InstaCode</h1>
+            </div>
+            <p>Create stunning code snippets for Instagram (4:5 Ratio)</p>
+        </header>
+
+        <main>
+            <div class="panel controls-panel">
+                <div class="control-group">
+                    <label for="text-input">Code Content</label>
+                    <textarea id="text-input" rows="14" spellcheck="false">coding:
+
+while (life.isComplicated()) {
+    code();
+    coffee();
+}
+
+// it works better than talking</textarea>
+                </div>
+                
+                <div class="settings-grid">
+                    <div class="control-group">
+                        <label for="font-size">Font Size: <span id="font-size-val" class="value-badge">55</span>px</label>
+                        <input type="range" id="font-size" min="20" max="150" value="55">
+                    </div>
+
+                    <div class="control-group">
+                        <label for="line-height">Line Height: <span id="line-height-val" class="value-badge">1.5</span></label>
+                        <input type="range" id="line-height" min="1.0" max="3.0" step="0.1" value="1.5">
+                    </div>
+                    
+                    <div class="control-group">
+                        <label for="padding-x">Left Padding: <span id="padding-x-val" class="value-badge">100</span>px</label>
+                        <input type="range" id="padding-x" min="0" max="300" step="10" value="100">
+                    </div>
+
+                    <div class="control-group">
+                        <label for="color-theme">Text Color</label>
+                        <input type="color" id="text-color" value="#ffffff">
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <button id="reset-btn" class="secondary-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><polyline points="3 3 3 8 8 8"></polyline></svg>
+                        Reset Alignment
+                    </button>
+                    <button id="download-btn" class="primary-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                        Download Image (PNG)
+                    </button>
+                </div>
+            </div>
+
+            <div class="panel preview-panel">
+                <div class="preview-wrapper">
+                    <canvas id="meme-canvas"></canvas>
+                </div>
+                <div class="preview-hint">1080 x 1350 px (Instagram Portrait)</div>
+            </div>
+        </main>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
