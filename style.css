@@ -68,8 +68,25 @@ header p {
 main {
     display: grid;
     grid-template-columns: 1fr 1fr;
+    grid-template-areas: 
+        "code preview"
+        "settings preview";
     gap: 2rem;
     align-items: start;
+}
+
+.code-panel {
+    grid-area: code;
+}
+
+.preview-panel {
+    grid-area: preview;
+    position: sticky;
+    top: 2rem;
+}
+
+.settings-panel {
+    grid-area: settings;
 }
 
 .panel {
@@ -82,7 +99,7 @@ main {
     animation: fadeInUp 0.8s ease-out backwards;
 }
 
-.controls-panel {
+.code-panel, .settings-panel {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
@@ -171,6 +188,30 @@ input[type="range"]::-webkit-slider-thumb {
 input[type="range"]::-webkit-slider-thumb:hover {
     transform: scale(1.2);
     background: var(--primary-hover);
+}
+
+select.custom-select {
+    width: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-main);
+    padding: 0.75rem;
+    border-radius: 8px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.95rem;
+    outline: none;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+select.custom-select:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
+}
+
+select.custom-select option {
+    background: var(--bg-color);
+    color: var(--text-main);
 }
 
 input[type="color"] {
@@ -265,7 +306,6 @@ input[type="color"]::-webkit-color-swatch {
     width: 100%;
     max-width: 450px;
     height: auto;
-    aspect-ratio: 4 / 5;
     background-color: #000;
     transition: opacity 0.3s ease;
 }
@@ -289,12 +329,40 @@ input[type="color"]::-webkit-color-swatch {
 
 /* Responsive */
 @media (max-width: 968px) {
+    body {
+        padding: 1rem;
+    }
+
+    .panel {
+        padding: 1.25rem;
+        border-radius: 16px;
+    }
+
+    header h1 {
+        font-size: 2.2rem;
+    }
+
+    header p {
+        font-size: 0.95rem;
+    }
+
     main {
-        grid-template-columns: 1fr;
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+    }
+    
+    .preview-panel {
+        position: static;
     }
     
     .settings-grid {
         grid-template-columns: 1fr;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+        gap: 0.75rem;
     }
     
     #meme-canvas {
